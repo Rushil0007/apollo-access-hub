@@ -5,7 +5,7 @@ import { LogOut, Settings, Moon, Sun } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Navbar() {
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, canManage } = useAuth();
   const location = useLocation();
   const [isDark, setIsDark] = useState(false);
 
@@ -41,7 +41,7 @@ export default function Navbar() {
               >
                 Dashboard
               </Link>
-              {isAdmin && (
+              {canManage && (
                 <Link
                   to="/admin"
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -73,7 +73,7 @@ export default function Navbar() {
                 <span className="text-sm text-foreground">
                   Welcome, {user.name}
                 </span>
-                {user.role === 'admin' && (
+                {user.role === 'major-admin' && (
                   <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-medium">
                     Admin
                   </span>

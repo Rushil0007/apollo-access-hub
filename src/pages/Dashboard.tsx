@@ -26,8 +26,8 @@ export default function Dashboard() {
             Access your Apollo Tyres projects and tools
           </p>
           <div className="flex items-center gap-2 mt-2">
-            <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-              {user.role === 'admin' ? 'Administrator' : 'User'}
+            <Badge variant={user.role === 'major-admin' ? 'default' : user.role === 'sub-admin' ? 'secondary' : 'outline'}>
+              {user.role === 'major-admin' ? 'Major Administrator' : user.role === 'sub-admin' ? 'Sub Administrator' : 'User'}
             </Badge>
             <Badge variant="outline">
               {accessibleProjects.length} of {projects.length} projects accessible
@@ -57,10 +57,10 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary">
-                {user.role === 'admin' ? 'Admin' : 'User'}
+                {user.role === 'major-admin' ? 'Major Admin' : user.role === 'sub-admin' ? 'Sub Admin' : 'User'}
               </div>
               <p className="text-xs text-muted-foreground">
-                {user.role === 'admin' ? 'Full system access' : 'Limited access'}
+                {user.role === 'major-admin' ? 'Full system access' : user.role === 'sub-admin' ? 'Limited admin access' : 'Limited access'}
               </p>
             </CardContent>
           </Card>

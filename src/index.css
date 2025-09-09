@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Apollo Tyres Brand Colors - Red, White, Black Theme */
+    /* Apollo Tyres Brand Colors - Purple Theme */
     --background: 0 0% 100%;
     --foreground: 0 0% 9%;
 
@@ -18,45 +18,45 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    /* Apollo Red as Primary */
-    --primary: 0 84% 50%;
+    /* Apollo Primary Purple #5C2E91 */
+    --primary: 266 52% 37%;
     --primary-foreground: 0 0% 100%;
 
-    /* Light gray for secondary */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+    /* Apollo Secondary Purple #56268D for hover effects */
+    --secondary: 270 54% 35%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    /* Apollo Red accent */
-    --accent: 0 84% 95%;
-    --accent-foreground: 0 84% 50%;
+    /* Light purple accent */
+    --accent: 266 52% 95%;
+    --accent-foreground: 266 52% 37%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 0 84% 50%;
+    --ring: 266 52% 37%;
 
     --radius: 0.5rem;
 
-    /* Apollo brand gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(0 84% 50%), hsl(0 84% 40%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 9%) 0%, hsl(0 84% 50%) 100%);
+    /* Apollo purple gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(266 52% 37%), hsl(270 54% 35%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 9%) 0%, hsl(266 52% 37%) 100%);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 20%;
-    --sidebar-primary: 0 84% 50%;
+    --sidebar-primary: 266 52% 37%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 0 84% 50%;
+    --sidebar-accent-foreground: 266 52% 37%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 0 84% 50%;
+    --sidebar-ring: 266 52% 37%;
   }
 
   .dark {
@@ -70,36 +70,36 @@ All colors MUST be HSL.
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 0 84% 60%;
+    --primary: 266 52% 45%;
     --primary-foreground: 0 0% 9%;
 
-    --secondary: 0 0% 15%;
+    --secondary: 270 54% 40%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 70%;
 
     --accent: 0 0% 15%;
-    --accent-foreground: 0 84% 60%;
+    --accent-foreground: 266 52% 45%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 0 84% 60%;
+    --ring: 266 52% 45%;
     
-    --gradient-primary: linear-gradient(135deg, hsl(0 84% 60%), hsl(0 84% 50%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 9%) 0%, hsl(0 84% 60%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(266 52% 45%), hsl(270 54% 40%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 9%) 0%, hsl(266 52% 45%) 100%);
     
     --sidebar-background: 0 0% 9%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 0 84% 60%;
+    --sidebar-primary: 266 52% 45%;
     --sidebar-primary-foreground: 0 0% 9%;
     --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 84% 60%;
+    --sidebar-accent-foreground: 266 52% 45%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 0 84% 60%;
+    --sidebar-ring: 266 52% 45%;
   }
 }
 
@@ -115,7 +115,7 @@ All colors MUST be HSL.
 
 @layer components {
   .btn-apollo {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+    @apply bg-primary text-primary-foreground hover:bg-secondary rounded-lg px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
   }
   
   .gradient-hero {

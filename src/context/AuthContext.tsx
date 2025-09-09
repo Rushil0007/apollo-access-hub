@@ -12,20 +12,27 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'user';
+  role: 'major-admin' | 'sub-admin' | 'user';
   allowedProjects: string[];
+  canManageUsers?: boolean;
+  canManageProjects?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   projects: Project[];
-  isAdmin: boolean;
+  users: User[];
+  isMajorAdmin: boolean;
+  isSubAdmin: boolean;
+  canManage: boolean;
   login: (email: string, password: string) => boolean;
   logout: () => void;
   addProject: (project: Omit<Project, 'id'>) => void;
   updateProject: (id: string, project: Partial<Project>) => void;
   deleteProject: (id: string) => void;
-  updateUserAccess: (userId: string, projectIds: string[]) => void;
+  addUser: (user: Omit<User, 'id'>) => void;
+  updateUser: (id: string, user: Partial<User>) => void;
+  deleteUser: (id: string) => void;
   hasAccess: (projectId: string) => boolean;
 }
 
@@ -66,26 +73,38 @@ const mockProjects: Project[] = [
 const mockUsers: User[] = [
   {
     id: '1',
-    name: 'Admin User',
-    email: 'admin@apollo.com',
-    role: 'admin',
-    allowedProjects: ['1', '2', '3', '4']
+    name: 'Major Admin',
+    email: 'major@apollo.com',
+    role: 'major-admin',
+    allowedProjects: ['1', '2', '3', '4'],
+    canManageUsers: true,
+    canManageProjects: true
   },
   {
     id: '2',
+    name: 'Sub Admin',
+    email: 'subadmin@apollo.com',
+    role: 'sub-admin',
+    allowedProjects: ['1', '2'],
+    canManageUsers: true,
+    canManageProjects: true
+  },
+  {
+    id: '3',
     name: 'John Doe',
     email: 'john@apollo.com',
     role: 'user',
-    allowedProjects: ['1', '2']
+    allowedProjects: ['1']
   }
 ];
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [users, setUsers] = useState<User[]>(mockUsers);
 
   const login = (email: string, password: string): boolean => {
-    const foundUser = mockUsers.find(u => u.email === email);
+    const foundUser = users.find(u => u.email === email);
     if (foundUser && password === 'apollo123') {
       setUser(foundUser);
       return true;
@@ -113,28 +132,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProjects(prev => prev.filter(p => p.id !== id));
   };
 
-  const updateUserAccess = (userId: string, projectIds: string[]) => {
-    if (user && user.id === userId) {
-      setUser({ ...user, allowedProjects: projectIds });
+  const addUser = (newUser: Omit<User, 'id'>) => {
+    const user: User = {
+      ...newUser,
+      id: Date.now().toString()
+    };
+    setUsers(prev => [...prev, user]);
+  };
+
+  const updateUser = (id: string, updates: Partial<User>) => {
+    setUsers(prev => prev.map(u => u.id === id ? { ...u, ...updates } : u));
+    if (user && user.id === id) {
+      setUser({ ...user, ...updates });
     }
+  };
+
+  const deleteUser = (id: string) => {
+    setUsers(prev => prev.filter(u => u.id !== id));
   };
 
   const hasAccess = (projectId: string): boolean => {
     if (!user) return false;
-    if (user.role === 'admin') return true;
+    if (user.role === 'major-admin') return true;
+    if (user.role === 'sub-admin' && user.canManageProjects) return true;
     return user.allowedProjects.includes(projectId);
   };
 
   const value: AuthContextType = {
     user,
     projects,
-    isAdmin: user?.role === 'admin',
+    users,
+    isMajorAdmin: user?.role === 'major-admin',
+    isSubAdmin: user?.role === 'sub-admin',
+    canManage: user?.role === 'major-admin' || (user?.role === 'sub-admin' && (user?.canManageUsers || user?.canManageProjects)),
     login,
     logout,
     addProject,
     updateProject,
     deleteProject,
-    updateUserAccess,
+    addUser,
+    updateUser,
+    deleteUser,
     hasAccess
   };
 
