@@ -44,7 +44,7 @@ export default function Login() {
 
   const fillDemoCredentials = (role: 'admin' | 'user') => {
     if (role === 'admin') {
-      setEmail('admin@apollo.com');
+      setEmail('major@apollo.com');
       setPassword('apollo123');
     } else {
       setEmail('john@apollo.com');
