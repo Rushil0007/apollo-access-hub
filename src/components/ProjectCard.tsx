@@ -33,33 +33,36 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <>
-      <Card className={`card-apollo relative overflow-hidden group cursor-pointer ${!canAccess ? 'opacity-60' : ''}`} onClick={handleClick}>
-        <CardContent className="p-6">
+      <Card 
+        className={`card-project group transition-all duration-500 ${!canAccess ? 'opacity-60' : ''}`} 
+        onClick={handleClick}
+      >
+        <CardContent className="relative p-8">
           {/* Lock icon for restricted projects */}
           {!canAccess && (
-            <div className="absolute top-4 right-4 bg-destructive/20 p-2 rounded-full">
-              <Lock className="w-4 h-4 text-destructive" />
+            <div className="absolute top-6 right-6 bg-destructive/10 border border-destructive/20 p-3 rounded-full">
+              <Lock className="w-5 h-5 text-destructive" />
             </div>
           )}
 
           {/* Project icon */}
-          <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 group-hover:bg-primary/20 transition-colors">
-            <span className="text-2xl" role="img" aria-label={project.name}>
+          <div className="flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl mb-6 group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-500 group-hover:scale-110">
+            <span className="text-3xl" role="img" aria-label={project.name}>
               {project.icon}
             </span>
           </div>
 
           {/* Project details */}
-          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+          <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
             {project.name}
           </h3>
           
-          <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+          <p className="text-muted-foreground text-sm mb-6 line-clamp-2 leading-relaxed">
             {project.description}
           </p>
 
           <div className="flex items-center justify-between">
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground font-medium">
               {canAccess ? 'Click to access' : 'Access restricted'}
             </div>
             
@@ -70,10 +73,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               }}
               variant={canAccess ? "default" : "secondary"}
               size="sm"
-              className={`transition-all duration-300 ${
+              className={`transition-all duration-300 rounded-lg px-4 py-2 ${
                 canAccess 
-                  ? 'hover:bg-secondary' 
-                  : 'cursor-not-allowed'
+                  ? 'btn-apollo' 
+                  : 'cursor-not-allowed bg-muted text-muted-foreground'
               }`}
               disabled={!canAccess}
             >
@@ -91,27 +94,40 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </Button>
           </div>
 
-          {/* Hover effect overlay */}
+          {/* Premium hover effect */}
           {canAccess && (
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl" />
+          )}
+          
+          {/* Subtle border glow on hover */}
+          {canAccess && (
+            <div className="absolute inset-0 border border-transparent group-hover:border-primary/20 rounded-2xl transition-all duration-500" />
           )}
         </CardContent>
       </Card>
 
       {/* Access Denied Dialog */}
       <Dialog open={showAccessDialog} onOpenChange={setShowAccessDialog}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5 text-destructive" />
+        <DialogContent className="max-w-md bg-white border-2 border-primary/20 shadow-2xl">
+          <DialogHeader className="text-center pb-4">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center">
+                <Lock className="h-8 w-8 text-destructive" />
+              </div>
+            </div>
+            <DialogTitle className="text-2xl font-bold text-destructive">
               Access Denied
             </DialogTitle>
-            <DialogDescription>
-              You do not have access to this project. Please contact your administrator to request access to "{project.name}".
+            <DialogDescription className="text-lg text-muted-foreground leading-relaxed">
+              You do not have access to <span className="font-semibold text-primary">"{project.name}"</span>. 
+              Please contact your administrator to request access.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end pt-4">
-            <Button onClick={() => setShowAccessDialog(false)}>
+          <div className="flex justify-center pt-6">
+            <Button 
+              onClick={() => setShowAccessDialog(false)}
+              className="btn-apollo px-8"
+            >
               Understood
             </Button>
           </div>

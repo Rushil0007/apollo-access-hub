@@ -1,99 +1,68 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Settings, Moon, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { LogOut, Settings } from 'lucide-react';
 
 export default function Navbar() {
-  const { user, logout, canManage } = useAuth();
-  const location = useLocation();
-  const [isDark, setIsDark] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  if (!user) return null;
 
   return (
-    <nav className="bg-background border-b border-border sticky top-0 z-50 backdrop-blur-sm bg-background/95">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary">
-              APOLLO
+    <nav className="bg-white shadow-lg border-b-2 border-primary/10 sticky top-0 z-50 backdrop-blur-sm">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-center py-4">
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
+            <img 
+              src="/lovable-uploads/28a15019-9e79-4ecf-86b9-e8de140ba48e.png" 
+              alt="Apollo Tyres Logo" 
+              className="h-10 w-auto hover:scale-105 transition-transform duration-300"
+            />
+            <div className="flex flex-col">
+              <span className="text-foreground font-bold text-xl">Apollo Tyres</span>
+              <span className="text-xs text-muted-foreground">Project Portal</span>
             </div>
-            <div className="text-sm text-muted-foreground">TYRES</div>
-          </Link>
-
-          {/* Navigation Links */}
-          {user && (
-            <div className="hidden md:flex items-center space-x-6">
-              <Link
-                to="/dashboard"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive('/dashboard')
-                    ? 'text-primary bg-accent'
-                    : 'text-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                Dashboard
-              </Link>
-              {canManage && (
-                <Link
-                  to="/admin"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive('/admin')
-                      ? 'text-primary bg-accent'
-                      : 'text-foreground hover:text-primary hover:bg-accent'
-                  }`}
+          </div>
+          
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
+              <div className="flex flex-col items-end">
+                <span className="text-foreground font-semibold text-sm">{user.name}</span>
+                <Badge 
+                  variant="secondary" 
+                  className="bg-gradient-to-r from-primary to-secondary text-white text-xs font-medium px-3 py-1 shadow-sm"
                 >
-                  Admin Panel
-                </Link>
-              )}
+                  {user.role === 'major-admin' ? 'Major Admin' : user.role === 'sub-admin' ? 'Sub Admin' : 'User'}
+                </Badge>
+              </div>
             </div>
-          )}
-
-          {/* Right side actions */}
-          <div className="flex items-center space-x-4">
-            {/* Theme toggle */}
+            {(user.role === 'major-admin' || (user.role === 'sub-admin' && user.canManageUsers)) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-primary hover:bg-primary/10 hover:text-primary font-medium transition-all duration-300 rounded-lg px-4"
+                onClick={() => navigate('/admin')}
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Admin Panel
+              </Button>
+            )}
             <Button
               variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="rounded-full"
+              size="sm"
+              className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive font-medium transition-all duration-300 rounded-lg px-4"
+              onClick={handleLogout}
             >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
             </Button>
-
-            {user ? (
-              <div className="flex items-center space-x-3">
-                <span className="text-sm text-foreground">
-                  Welcome, {user.name}
-                </span>
-                {user.role === 'major-admin' && (
-                  <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-medium">
-                    Admin
-                  </span>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={logout}
-                  className="rounded-full"
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <Link to="/login">
-                <Button variant="default" size="sm">
-                  Login
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
       </div>

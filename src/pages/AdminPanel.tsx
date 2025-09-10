@@ -207,25 +207,25 @@ export default function AdminPanel() {
   const regularUsers = users.filter(u => u.role !== 'major-admin');
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">
+        <div className="flex justify-between items-center mb-12">
+          <div className="animate-slide-up">
+            <h1 className="text-4xl font-bold text-foreground mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Admin Panel
             </h1>
-            <p className="text-muted-foreground">
-              Manage projects and users
+            <p className="text-muted-foreground text-lg">
+              Manage projects, users, and system configurations
             </p>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex gap-4 animate-fade-in">
             {isMajorAdmin && (
               <Dialog open={isAddUserDialogOpen} onOpenChange={setIsAddUserDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="btn-apollo">
-                    <UserPlus className="h-4 w-4 mr-2" />
+                    <UserPlus className="h-5 w-5 mr-2" />
                     Add User
                   </Button>
                 </DialogTrigger>
@@ -235,7 +235,7 @@ export default function AdminPanel() {
             <Dialog open={isAddProjectDialogOpen} onOpenChange={setIsAddProjectDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="btn-apollo">
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="h-5 w-5 mr-2" />
                   Add Project
                 </Button>
               </DialogTrigger>
@@ -244,45 +244,50 @@ export default function AdminPanel() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Total Projects</CardTitle>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 animate-scale-in">
+          <Card className="card-apollo group">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-muted-foreground">Total Projects</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">{projects.length}</div>
+              <div className="text-4xl font-bold text-primary mb-1">{projects.length}</div>
+              <p className="text-sm text-muted-foreground">Active in system</p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Total Users</CardTitle>
+          <Card className="card-apollo group">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-muted-foreground">Total Users</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">{regularUsers.length}</div>
+              <div className="text-4xl font-bold text-secondary mb-1">{regularUsers.length}</div>
               <p className="text-sm text-muted-foreground">Excluding major admin</p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Sub Admins</CardTitle>
+          <Card className="card-apollo group">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-muted-foreground">Sub Admins</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">
+              <div className="text-4xl font-bold text-purple-600 mb-1">
                 {regularUsers.filter(u => u.role === 'sub-admin').length}
               </div>
+              <p className="text-sm text-muted-foreground">Administrative users</p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">System Status</CardTitle>
+          <Card className="card-apollo group">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-muted-foreground">System Status</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-sm">Operational</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                <div>
+                  <div className="text-2xl font-bold text-green-600">Online</div>
+                  <span className="text-sm text-muted-foreground">All systems operational</span>
+                </div>
               </div>
             </CardContent>
           </Card>

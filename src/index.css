@@ -2,14 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Apollo Tyres Design System - Modern Corporate Branding */
 
 @layer base {
   :root {
-    /* Apollo Tyres Brand Colors - Purple Theme */
-    --background: 0 0% 100%;
+    /* Apollo Tyres Brand Colors - Premium Purple Theme */
+    --background: 0 0% 98%;
     --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
@@ -21,33 +19,44 @@ All colors MUST be HSL.
     /* Apollo Primary Purple #5C2E91 */
     --primary: 266 52% 37%;
     --primary-foreground: 0 0% 100%;
+    --primary-hover: 270 54% 35%;
 
-    /* Apollo Secondary Purple #56268D for hover effects */
+    /* Apollo Secondary Purple #56268D */
     --secondary: 270 54% 35%;
     --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 266 52% 32%;
 
-    --muted: 0 0% 96%;
+    --muted: 0 0% 95%;
     --muted-foreground: 0 0% 45%;
 
-    /* Light purple accent */
-    --accent: 266 52% 95%;
+    /* Premium accent colors */
+    --accent: 266 52% 97%;
     --accent-foreground: 266 52% 37%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 0 0% 88%;
+    --input: 0 0% 100%;
     --ring: 266 52% 37%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Apollo purple gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(266 52% 37%), hsl(270 54% 35%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 9%) 0%, hsl(266 52% 37%) 100%);
+    /* Premium gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(266 52% 37%) 0%, hsl(270 54% 35%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(266 52% 37%) 0%, hsl(270 54% 35%) 50%, hsl(300 40% 45%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(266 52% 99%) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(266 52% 37% / 0.1);
+    --shadow-md: 0 8px 24px -4px hsl(266 52% 37% / 0.15);
+    --shadow-lg: 0 16px 40px -8px hsl(266 52% 37% / 0.2);
+    --shadow-glow: 0 0 24px hsl(266 52% 37% / 0.3);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 20%;
@@ -115,15 +124,44 @@ All colors MUST be HSL.
 
 @layer components {
   .btn-apollo {
-    @apply bg-primary text-primary-foreground hover:bg-secondary rounded-lg px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-8 py-4 font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg;
+  }
+  
+  .btn-apollo-secondary {
+    @apply bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-lg px-8 py-4 font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+  
+  .btn-apollo-glass {
+    @apply bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-lg px-8 py-4 font-semibold transition-all duration-300 transform hover:scale-105;
   }
   
   .gradient-hero {
     background: var(--gradient-hero);
   }
   
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  
   .card-apollo {
-    @apply bg-card border border-border rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+    background: var(--gradient-card);
+    @apply border border-border rounded-2xl shadow-md hover:shadow-lg transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-1;
+  }
+  
+  .card-project {
+    @apply bg-white border border-border rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-[1.03] hover:-translate-y-2 cursor-pointer group;
+  }
+  
+  .card-project:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20;
+  }
+  
+  .input-apollo {
+    @apply bg-white border-2 border-border focus:border-primary rounded-lg px-4 py-3 transition-all duration-300 focus:shadow-md;
   }
 }
 
@@ -135,6 +173,18 @@ All colors MUST be HSL.
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 @keyframes float {
@@ -143,5 +193,36 @@ All colors MUST be HSL.
   }
   50% {
     transform: translateY(-20px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
